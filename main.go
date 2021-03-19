@@ -7,17 +7,17 @@ package main
 //
 // static bool str_has_suffix(const char *str, const char *suffix)
 // {
-//         size_t i, n1 = strlen(str), n2 = strlen(suffix);
+//     size_t i, n1 = strlen(str), n2 = strlen(suffix);
 //
-//         if (n1 < n2)
-//             return false;
+//     if (n1 < n2)
+//         return false;
 //
-//         for (i = 0; i < n2; i++) {
-//             if (str[n1 - i - 1] != suffix[n2 - i - 1])
-//                return false;
-//         }
+//     for (i = 0; i < n2; i++) {
+//         if (str[n1 - i - 1] != suffix[n2 - i - 1])
+//            return false;
+//     }
 //
-//         return true;
+//     return true;
 // }
 //
 // static const char *get_map_ident(const struct bpf_map *map)
@@ -68,6 +68,8 @@ func main() {
 
 	opts := C.struct_bpf_object_open_opts{}
 	C.bzero(unsafe.Pointer(&opts), C.sizeof_struct_bpf_object_open_opts)
+	opts.object_name = C.CString(objectName(bpfObjFileName))
+	opts.sz = C.sizeof_struct_bpf_object_open_opts
 	bpfObj := C.bpf_object__open_mem(C.CBytes(data), C.ulong(bpfObjFile.Size()), &opts)
 
 	// get maps
@@ -75,7 +77,17 @@ func main() {
 	m = C.bpf_map__next(m, bpfObj)
 	for m != nil {
 		name := C.get_map_ident(m)
-		fmt.Println(name)
+		fmt.Println(C.GoString(name))
 		m = C.bpf_map__next(m, bpfObj)
 	}
+
+	// get progs
+
+	// get data
+
+	// get bss
+
+	// get rodata
+
+	// get kconfig
 }
