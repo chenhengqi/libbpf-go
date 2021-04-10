@@ -15,12 +15,15 @@ $(LIBBPF_OBJ): $(wildcard $(LIBBPF_SRC)/*.[ch]) | $(OUTPUT)/libbpf
 		INCLUDEDIR= LIBDIR= UAPIDIR=                    \
 		install
 
-$(LIBBPF_GEN_GO):
+$(LIBBPF_GEN_GO): *.go
 	go build -o $(LIBBPF_GEN_GO)
 
 .PHONY: example
 example: $(LIBBPF_GEN_GO)
 	bpftool gen skeleton $(EXAMPLE)/biolatency.bpf.o > $(EXAMPLE)/biolatency.skel.h
+
+run: $(LIBBPF_GEN_GO)
+	./$(LIBBPF_GEN_GO) $(EXAMPLE)/biolatency.bpf.o
 
 clean:
 	rm -rf $(OUTPUT)

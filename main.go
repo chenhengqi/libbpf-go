@@ -3,6 +3,8 @@ package main
 // #cgo CFLAGS: -I${SRCDIR}/.output
 // #cgo LDFLAGS: -L${SRCDIR}/.output -lbpf -lelf -lz
 // #include <strings.h>
+// #include <bpf/bpf.h>
+// #include <bpf/btf.h>
 // #include <bpf/libbpf.h>
 //
 // static bool str_has_suffix(const char *str, const char *suffix)
@@ -37,6 +39,11 @@ package main
 //         return "kconfig";
 //     else
 //         return NULL;
+// }
+//
+// void codegen_btf_dump_printf(void *ctx, const char *fmt, va_list args)
+// {
+//     vprintf(fmt, args);
 // }
 import "C"
 import (
@@ -82,12 +89,37 @@ func main() {
 	}
 
 	// get progs
+	var p *C.struct_bpf_program
+	p = C.bpf_program__next(p, bpfObj)
+	for p != nil {
+		name := C.bpf_program__name(p)
+		fmt.Println(C.GoString(name))
+		p = C.bpf_program__next(p, bpfObj)
+	}
 
-	// get data
+	btfObj := C.bpf_object__btf(bpfObj)
+	var btfExt *C.struct_btf_ext
+	var btfOpts *C.struct_btf_dump_opts
+	btfDump := C.btf_dump__new(btfObj, btfExt, btfOpts, (*[0]byte)(C.codegen_btf_dump_printf))
 
-	// get bss
+	n := int(C.btf__get_nr_types(btfObj))
+	for i := 1; i <= n; i++ {
+		section := C.btf__type_by_id(btfObj, C.uint(i))
+		if !C.btf_is_datasec(section) {
+			continue
+		}
 
-	// get rodata
+		var stripMods bool
 
-	// get kconfig
+		sectionName := C.btf__name_by_offset(btfObj, section.name_off)
+		switch C.GoString(sectionName) {
+		case ".data":
+		case ".bss":
+		case ".rodata":
+			stripMods = true
+		case ".kconfig":
+		default:
+			continue
+		}
+	}
 }
