@@ -15,4 +15,3 @@
 # vendor/
 
 .output
-libbpf-gen-go
