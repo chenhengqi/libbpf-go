@@ -18,7 +18,7 @@ var apiHeaders = []string{
 
 // regular expression to match LIBAPI definition
 //     LIBBPF_API[ LIBBPF_DEPRECATED("msg")] name(type1 arg1,...);
-var regex = regexp.MustCompile("LIBBPF_API[a-zA-Z0-9_,*()\\s\"]+;")
+var regex = regexp.MustCompile("LIBBPF_API( LIBBPF_DEPRECATED\\(\".*\"\\))?(?P<func_def>[a-zA-Z0-9_,*()\\s\"]+);")
 
 // -path path/to/libbpf/src
 var libbpfHeadersPath = flag.String("path", "", "path to libbpf headers")
@@ -38,7 +38,12 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		matches := regex.FindAll(data, -1)
+		var matches [][]byte
+		allSubmatches := regex.FindAllSubmatch(data, -1)
+		for _, submatches := range allSubmatches {
+			lastSubmatch := submatches[len(submatches)-1]
+			matches = append(matches, lastSubmatch)
+		}
 		gen(matches, header, *libbpfGoPath)
 	}
 }
