@@ -83,7 +83,7 @@ func Bpf_object__pin(object *Struct_bpf_object, path string) int32 {
 // Bpf_object__close is a wrapper of bpf_object__close
 //     void bpf_object__close(struct bpf_object *object)
 func Bpf_object__close(object *Struct_bpf_object)  {
-	return C.bpf_object__close()
+	 C.bpf_object__close()
 }
 
 // Bpf_object__load is a wrapper of bpf_object__load
@@ -209,7 +209,7 @@ func Bpf_program__priv(prog *Struct_bpf_program) unsafe.Pointer {
 // Bpf_program__set_ifindex is a wrapper of bpf_program__set_ifindex
 //     void bpf_program__set_ifindex(struct bpf_program *prog, __u32 ifindex)
 func Bpf_program__set_ifindex(prog *Struct_bpf_program, ifindex uint32)  {
-	return C.bpf_program__set_ifindex()
+	 C.bpf_program__set_ifindex()
 }
 
 // Bpf_program__name is a wrapper of bpf_program__name
@@ -287,7 +287,7 @@ func Bpf_program__unpin(prog *Struct_bpf_program, path string) int32 {
 // Bpf_program__unload is a wrapper of bpf_program__unload
 //     void bpf_program__unload(struct bpf_program *prog)
 func Bpf_program__unload(prog *Struct_bpf_program)  {
-	return C.bpf_program__unload()
+	 C.bpf_program__unload()
 }
 
 // Bpf_link__open is a wrapper of bpf_link__open
@@ -329,7 +329,7 @@ func Bpf_link__update_program(link *Struct_bpf_link, prog *Struct_bpf_program) i
 // Bpf_link__disconnect is a wrapper of bpf_link__disconnect
 //     void bpf_link__disconnect(struct bpf_link *link)
 func Bpf_link__disconnect(link *Struct_bpf_link)  {
-	return C.bpf_link__disconnect()
+	 C.bpf_link__disconnect()
 }
 
 // Bpf_link__detach is a wrapper of bpf_link__detach
@@ -527,7 +527,7 @@ func Bpf_program__get_type(prog *Struct_bpf_program) Enum_bpf_prog_type {
 // Bpf_program__set_type is a wrapper of bpf_program__set_type
 //     void bpf_program__set_type(struct bpf_program *prog, enum bpf_prog_type type)
 func Bpf_program__set_type(prog *Struct_bpf_program, type_ Enum_bpf_prog_type)  {
-	return C.bpf_program__set_type()
+	 C.bpf_program__set_type()
 }
 
 // Bpf_program__get_expected_attach_type is a wrapper of bpf_program__get_expected_attach_type
@@ -539,7 +539,7 @@ func Bpf_program__get_expected_attach_type(prog *Struct_bpf_program) Enum_bpf_at
 // Bpf_program__set_expected_attach_type is a wrapper of bpf_program__set_expected_attach_type
 //     void bpf_program__set_expected_attach_type(struct bpf_program *prog, enum bpf_attach_type type)
 func Bpf_program__set_expected_attach_type(prog *Struct_bpf_program, type_ Enum_bpf_attach_type)  {
-	return C.bpf_program__set_expected_attach_type()
+	 C.bpf_program__set_expected_attach_type()
 }
 
 // Bpf_program__set_attach_target is a wrapper of bpf_program__set_attach_target
@@ -899,7 +899,7 @@ func Ring_buffer__new(map_fd int32, sample_cb C.ring_buffer_sample_fn, ctx unsaf
 // Ring_buffer__free is a wrapper of ring_buffer__free
 //     void ring_buffer__free(struct ring_buffer *rb)
 func Ring_buffer__free(rb *Struct_ring_buffer)  {
-	return C.ring_buffer__free()
+	 C.ring_buffer__free()
 }
 
 // Ring_buffer__add is a wrapper of ring_buffer__add
@@ -941,7 +941,7 @@ func Perf_buffer__new_raw(map_fd int32, page_cnt uint, opts *Struct_perf_buffer_
 // Perf_buffer__free is a wrapper of perf_buffer__free
 //     void perf_buffer__free(struct perf_buffer *pb)
 func Perf_buffer__free(pb *Struct_perf_buffer)  {
-	return C.perf_buffer__free()
+	 C.perf_buffer__free()
 }
 
 // Perf_buffer__epoll_fd is a wrapper of perf_buffer__epoll_fd
@@ -989,7 +989,7 @@ func Bpf_perf_event_read_simple(mmap_mem unsafe.Pointer, mmap_size uint, page_si
 // Bpf_prog_linfo__free is a wrapper of bpf_prog_linfo__free
 //     void bpf_prog_linfo__free(struct bpf_prog_linfo *prog_linfo)
 func Bpf_prog_linfo__free(prog_linfo *Struct_bpf_prog_linfo)  {
-	return C.bpf_prog_linfo__free()
+	 C.bpf_prog_linfo__free()
 }
 
 // Bpf_prog_linfo__new is a wrapper of bpf_prog_linfo__new
@@ -1043,13 +1043,13 @@ func Bpf_program__get_prog_info_linear(fd int32, arrays uint64) *Struct_bpf_prog
 // Bpf_program__bpil_addr_to_offs is a wrapper of bpf_program__bpil_addr_to_offs
 //     void bpf_program__bpil_addr_to_offs(struct bpf_prog_info_linear *info_linear)
 func Bpf_program__bpil_addr_to_offs(info_linear *Struct_bpf_prog_info_linear)  {
-	return C.bpf_program__bpil_addr_to_offs()
+	 C.bpf_program__bpil_addr_to_offs()
 }
 
 // Bpf_program__bpil_offs_to_addr is a wrapper of bpf_program__bpil_offs_to_addr
 //     void bpf_program__bpil_offs_to_addr(struct bpf_prog_info_linear *info_linear)
 func Bpf_program__bpil_offs_to_addr(info_linear *Struct_bpf_prog_info_linear)  {
-	return C.bpf_program__bpil_offs_to_addr()
+	 C.bpf_program__bpil_offs_to_addr()
 }
 
 // Libbpf_num_possible_cpus is a wrapper of libbpf_num_possible_cpus
@@ -1079,13 +1079,13 @@ func Bpf_object__attach_skeleton(s *Struct_bpf_object_skeleton) int32 {
 // Bpf_object__detach_skeleton is a wrapper of bpf_object__detach_skeleton
 //     void bpf_object__detach_skeleton(struct bpf_object_skeleton *s)
 func Bpf_object__detach_skeleton(s *Struct_bpf_object_skeleton)  {
-	return C.bpf_object__detach_skeleton()
+	 C.bpf_object__detach_skeleton()
 }
 
 // Bpf_object__destroy_skeleton is a wrapper of bpf_object__destroy_skeleton
 //     void bpf_object__destroy_skeleton(struct bpf_object_skeleton *s)
 func Bpf_object__destroy_skeleton(s *Struct_bpf_object_skeleton)  {
-	return C.bpf_object__destroy_skeleton()
+	 C.bpf_object__destroy_skeleton()
 }
 
 // Bpf_linker__new is a wrapper of bpf_linker__new
@@ -1109,5 +1109,5 @@ func Bpf_linker__finalize(linker *Struct_bpf_linker) int32 {
 // Bpf_linker__free is a wrapper of bpf_linker__free
 //     void bpf_linker__free(struct bpf_linker *linker)
 func Bpf_linker__free(linker *Struct_bpf_linker)  {
-	return C.bpf_linker__free()
+	 C.bpf_linker__free()
 }

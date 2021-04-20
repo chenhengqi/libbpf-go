@@ -11,7 +11,7 @@ var _ unsafe.Pointer
 // Btf__free is a wrapper of btf__free
 //     void btf__free(struct btf *btf)
 func Btf__free(btf *Struct_btf)  {
-	return C.btf__free()
+	 C.btf__free()
 }
 
 // Btf__new is a wrapper of btf__new
@@ -167,7 +167,7 @@ func Btf__fd(btf *Struct_btf) int32 {
 // Btf__set_fd is a wrapper of btf__set_fd
 //     void btf__set_fd(struct btf *btf, int fd)
 func Btf__set_fd(btf *Struct_btf, fd int32)  {
-	return C.btf__set_fd()
+	 C.btf__set_fd()
 }
 
 // Btf__get_raw_data is a wrapper of btf__get_raw_data
@@ -209,7 +209,7 @@ func Btf_ext__new(data *uint8, size uint32) *Struct_btf_ext {
 // Btf_ext__free is a wrapper of btf_ext__free
 //     void btf_ext__free(struct btf_ext *btf_ext)
 func Btf_ext__free(btf_ext *Struct_btf_ext)  {
-	return C.btf_ext__free()
+	 C.btf_ext__free()
 }
 
 // Btf_ext__get_raw_data is a wrapper of btf_ext__get_raw_data
@@ -401,7 +401,7 @@ func Btf_dump__new(btf *Struct_btf, btf_ext *Struct_btf_ext, opts *Struct_btf_du
 // Btf_dump__free is a wrapper of btf_dump__free
 //     void btf_dump__free(struct btf_dump *d)
 func Btf_dump__free(d *Struct_btf_dump)  {
-	return C.btf_dump__free()
+	 C.btf_dump__free()
 }
 
 // Btf_dump__dump_type is a wrapper of btf_dump__dump_type

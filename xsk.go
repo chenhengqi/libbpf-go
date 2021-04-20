@@ -71,5 +71,5 @@ func Xsk_umem__delete(umem *Struct_xsk_umem) int32 {
 // Xsk_socket__delete is a wrapper of xsk_socket__delete
 //     void xsk_socket__delete(struct xsk_socket *xsk)
 func Xsk_socket__delete(xsk *Struct_xsk_socket)  {
-	return C.xsk_socket__delete()
+	 C.xsk_socket__delete()
 }
