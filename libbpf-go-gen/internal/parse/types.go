@@ -2,7 +2,11 @@ package parse
 
 import "strings"
 
+// all C types exist in libbpf APIs
 var types map[string]struct{}
+
+// C type to Go type mapping
+var typeToGoType map[string]string
 
 func init() {
 	types = make(map[string]struct{})
@@ -84,6 +88,26 @@ func init() {
 	types["xsk_socket"] = struct{}{}
 	types["xsk_umem_config"] = struct{}{}
 	types["xsk_umem"] = struct{}{}
+
+	typeToGoType = make(map[string]string)
+	typeToGoType["bool"] = "bool"
+	typeToGoType["int"] = "int32"
+	typeToGoType["long"] = "int64"
+	typeToGoType["__u8"] = "uint8"
+	typeToGoType["__s32"] = "int32"
+	typeToGoType["__u32"] = "uint32"
+	typeToGoType["__s64"] = "int64"
+	typeToGoType["__u64"] = "uint64"
+	typeToGoType["size_t"] = "uint"
+	typeToGoType["pid_t"] = "int32"
+	typeToGoType["libbpf_print_fn_t"] = "C.libbpf_print_fn_t"
+	typeToGoType["btf_dump_printf_fn_t"] = "C.btf_dump_printf_fn_t"
+	typeToGoType["ring_buffer_sample_fn"] = "C.ring_buffer_sample_fn"
+	typeToGoType["bpf_perf_event_print_t"] = "C.bpf_perf_event_print_t"
+	typeToGoType["bpf_object_clear_priv_t"] = "C.bpf_object_clear_priv_t"
+	typeToGoType["bpf_program_clear_priv_t"] = "C.bpf_program_clear_priv_t"
+	typeToGoType["bpf_program_prep_t"] = "C.bpf_program_prep_t"
+	typeToGoType["bpf_map_clear_priv_t"] = "C.bpf_map_clear_priv_t"
 }
 
 func RegisterTypes(ctypes ...string) {
@@ -105,7 +129,46 @@ type TypeSpec struct {
 	TypeName     string
 }
 
-// GoName return a capitalized name for Go as an exported identifier
+// GoName returns a titled name for Go as an exported identifier
 func (t *TypeSpec) GoName() string {
 	return strings.Title(t.Name)
+}
+
+// GoTypeName returns a GO type name for this type spec
+func (t *TypeSpec) GoTypeName() string {
+	if t.IsVoid {
+		if t.IsPointer {
+			return "unsafe.Pointer"
+		} else {
+			return ""
+		}
+	}
+	if t.IsStruct {
+		if t.IsPointer {
+			return "*Struct_" + t.TypeName
+		} else {
+			return "Struct_" + t.TypeName
+		}
+	}
+	if t.IsEnum {
+		return "Enum_" + t.TypeName
+	}
+	if t.IsConst {
+		if t.IsPointer && t.TypeName == "char" {
+			// `const char *`
+			return "string"
+		}
+	}
+	if t.IsPointer && t.TypeName == "char" {
+		// `char *`
+		return "*C.char"
+	}
+	name, ok := typeToGoType[t.TypeName]
+	if ok {
+		if t.IsPointer {
+			return "*" + name
+		}
+		return name
+	}
+	panic("unknown type")
 }
